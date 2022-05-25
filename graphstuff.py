@@ -18,9 +18,9 @@ def adjlShow(L, labels=None, directed=False, weighted=False, path=[],
     g.node(str(u), labels[u] if labels else str(u))
   added = set()
   for v, u in enumerate(path):
-    if u != None:
+    if u != -1:
       if weighted:
-        for vi, w in G[u]:
+        for vi, w in L[u]:
           if vi == v:
             break
         g.edge(str(u), str(v), str(w), dir="forward", penwidth="2", color="orange")
