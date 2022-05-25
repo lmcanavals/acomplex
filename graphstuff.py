@@ -1,6 +1,7 @@
 import graphviz as gv
 
 def adjlShow(L, labels=None, directed=False, weighted=False, path=[],
+             simplepath=True,
              layout="sfdp"):
   g = gv.Digraph("G") if directed else gv.Graph("G")
   g.graph_attr["layout"] = layout
@@ -17,7 +18,8 @@ def adjlShow(L, labels=None, directed=False, weighted=False, path=[],
   for u in range(n):
     g.node(str(u), labels[u] if labels else str(u))
   added = set()
-  for v, u in enumerate(path):
+  path = enumerate(path) if simplepath else path
+  for v, u in path:
     if u != -1:
       if weighted:
         for vi, w in L[u]:
