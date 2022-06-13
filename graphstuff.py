@@ -1,5 +1,15 @@
 import graphviz as gv
 
+def loadGraphAL(fn):
+    with open(fn) as f:
+        G = []
+        for line in f:
+            if line == '-\n':
+                G.append([])
+            else:
+                nums = [int(x) for x in line.split()]
+                G.append([(nums[i], nums[i+1]) for i in range(0, len(nums), 2)])
+
 def adjlShow(L, labels=None, directed=False, weighted=False, path=[],
              simplepath=True,
              layout="sfdp"):
