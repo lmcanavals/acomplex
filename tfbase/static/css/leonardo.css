@@ -1,0 +1,19 @@
+*,*::before,*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: inherit;
+}
+html {
+	box-sizing: border-box;
+	font-size: 62.5%;
+}
+body {
+}
+#box {
+	background: SlateGray;
+	margin: 0 auto;
+	width: 990px;
+}
+
+/* vim: set tabstop=2:softtabstop=2:shiftwidth=2:noexpandtab */
+
