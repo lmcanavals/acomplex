@@ -23,9 +23,14 @@ def serveCSS(path):
 def serveData(path):
     return send_from_directory('static/data', path)
 
-@app.route("/peru1")
-def peru1():
-    return app.response_class(response=algorithm.peru1(),
+@app.route("/graph")
+def graph():
+    return app.response_class(response=algorithm.graph(),
+                              status=200,
+                              mimetype='application/json')
+@app.route("/paths")
+def paths():
+    return app.response_class(response=algorithm.paths(),
                               status=200,
                               mimetype='application/json')
 
