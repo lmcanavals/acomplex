@@ -17,14 +17,15 @@
 		left:   10
 	};
 	const box    = {
-		width: 0,
-		height: 0,
-		bwidth: 0,
-	  bheight: 0,
+		width: 1600,
+		height: 1000,
+		bwidth: 1600 - margin.left - margin.right,
+	  bheight: 1000 - margin.top - margin.bottom,
 	};
 
 	// Canvas y elementos
   
+  const bod = document.querySelector("body");
 	const ctx = document.querySelector("#canvitas").getContext("2d");
 	if (!ctx) {
 		console.log("something terribly wrong is going on here");
@@ -64,40 +65,29 @@
     }
     ctx.stroke();
   }
-
-  function resizeCanvas() {
-    box.width   = document.querySelector("body").clientWidth;
-    box.height  = document.querySelector("body").clientHeight;
-    box.bwidth  = document.querySelector("body").clientWidth - margin.left - margin.right;
-    box.bheight = document.querySelector("body").clientHeight - margin.top - margin.bottom;
-    
-    ctx.canvas.width = box.width;
-    ctx.canvas.height = box.height;
-    
-    let size = 0;
-    let xpro = 1;
-    let ypro = 1;
-    if (w > h) {
-      size = box.bwidth - margin.right;
-      ypro = h / w;
-    } else {
-      size = box.bheight - margin.bottom
-      xpro = w / h;
-    }
   
-    scalex = d3.scaleLinear()
-      .domain(extentx)
-      .range([margin.left, size * xpro]);
-    scaley = d3.scaleLinear()
-      .domain(extenty)
-      .range([size * ypro, margin.top]);
-
-    render()
-    console.log("resizing")
+  ctx.canvas.width = box.width;
+  ctx.canvas.height = box.height;
+  
+  let size = 0;
+  let xpro = 1;
+  let ypro = 1;
+  if (w > h) {
+    size = box.bwidth - margin.right;
+    ypro = h / w;
+  } else {
+    size = box.bheight - margin.bottom
+    xpro = w / h;
   }
-  window.addEventListener('resize', resizeCanvas, false);
 
-  resizeCanvas()
+  scalex = d3.scaleLinear()
+    .domain(extentx)
+    .range([margin.left, size * xpro]);
+  scaley = d3.scaleLinear()
+    .domain(extenty)
+    .range([size * ypro, margin.top]);
+
+  render()
 	// Funciones y eventos
 
 	// Empezamos
