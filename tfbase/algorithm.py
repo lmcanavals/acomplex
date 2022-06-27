@@ -75,10 +75,7 @@ def dijkstra(G, s):
 G, Loc = transformGraph()
 
 def graph():
-
-    response = {"loc": Loc, "g": G}
-
-    return json.dumps(response)
+    return json.dumps({"loc": Loc, "g": G})
 
 
 def paths(s, t):
@@ -86,6 +83,4 @@ def paths(s, t):
     path1 = bfs(G, s)
     path2 = dfs(G, s)
 
-    response = {"bestpath": bestpath, "path1": path1, "path2": path2}
-
-    return json.dumps(response)
+    return json.dumps({"bestpath": bestpath, "path1": path1, "path2": path2})

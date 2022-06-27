@@ -56,7 +56,8 @@
   const x = d => lon(d);
   const y = d => lat(d);
 
-  function render(points, color) {
+  function render(points, color, lw) {
+    ctx.lineWidth = lw;
     ctx.beginPath();
     ctx.strokeStyle = color;
     for (const point of points) {
@@ -72,7 +73,7 @@
       edges.push([graph.loc[u], graph.loc[v]])
     }
   }
-  render(edges, 'white')
+  render(edges, 'white', 2)
   
   function dealWithPath(path, color) {
     let head = t;
@@ -81,7 +82,7 @@
       points.push([graph.loc[head], graph.loc[path[head]]]);
       head = path[head];
     }
-    render(points, color)
+    render(points, color, 4)
   }
   dealWithPath(paths.bestpath, "darkgreen")
   dealWithPath(paths.path1, "orange")
