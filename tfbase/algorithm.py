@@ -2,7 +2,7 @@ import json
 import random as r
 
 def graph():
-    n, m = 50, 50
+    n, m = 120, 120
     Loc = [(i * 100 - r.randint(145, 155), j * 100 - r.randint(145, 155)) for i in range(1, n + 1) for j in range(1, m + 1)]
     G = [[] for _ in range(n * m)]
     for i in range(n):
