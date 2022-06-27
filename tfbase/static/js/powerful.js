@@ -87,23 +87,14 @@
   dealWithPath(paths.path1, "orange")
   dealWithPath(paths.path2, "red")
 
-  ctx.beginPath()
   ctx.fillStyle = "LimeGreen";
-  ctx.rect(x(graph.loc[s]) - 5, y(graph.loc[s]) - 5, 10, 10)
-  ctx.fill()
-  ctx.beginPath()
+  ctx.fillRect(x(graph.loc[s]) - 5, y(graph.loc[s]) - 5, 10, 10)
   ctx.strokeStyle = "Green";
-  ctx.rect(x(graph.loc[s]) - 5, y(graph.loc[s]) - 5, 10, 10)
-  ctx.stroke()
-
-  ctx.beginPath()
+  ctx.strokeRect(x(graph.loc[s]) - 5, y(graph.loc[s]) - 5, 10, 10)
   ctx.fillStyle = "Orange";
-  ctx.rect(x(graph.loc[t]) - 5, y(graph.loc[t]) - 5, 10, 10)
-  ctx.fill()
-  ctx.beginPath()
-  ctx.strokeStyle = "DarkOrange";
-  ctx.rect(x(graph.loc[t]) - 5, y(graph.loc[t]) - 5, 10, 10)
-  ctx.stroke()
+  ctx.fillRect(x(graph.loc[t]) - 5, y(graph.loc[t]) - 5, 10, 10)
+  ctx.strokeStyle = "OrangeRed";
+  ctx.strokeRect(x(graph.loc[t]) - 5, y(graph.loc[t]) - 5, 10, 10)
 
   // Funciones y eventos
 
