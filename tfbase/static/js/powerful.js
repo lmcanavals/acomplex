@@ -2,6 +2,7 @@
   console.log("Toda la alegría del mundo.");
 
   // Data
+
   const urlgraph = "graph";
   const graph = await d3.json(urlgraph);
 
@@ -12,17 +13,23 @@
 
   // config
 
+  const width = document.querySelector("#box").clientWidth;
+
+  const extentx = d3.extent(graph.loc, d => d[0]);
+  const extenty = d3.extent(graph.loc, d => d[1]);
+  const w = extentx[1] - extentx[0];
+  const h = extenty[1] - extenty[0];
+
   const margin = {
     top: 10,
     right: 10,
     bottom: 10,
     left: 10
   };
+  
   const box = {
-    width: 1600,
-    height: 1000,
-    bwidth: 1600 - margin.left - margin.right,
-    bheight: 1000 - margin.top - margin.bottom,
+    width: width,
+    height: width * h / w,
   };
 
   // Canvas y elementos
@@ -35,22 +42,12 @@
   ctx.canvas.width = box.width;
   ctx.canvas.height = box.height;
 
-  const extentx = d3.extent(graph.loc, d => d[0]);
-  const extenty = d3.extent(graph.loc, d => d[1]);
-  const w = extentx[1] - extentx[0];
-  const h = extenty[1] - extenty[0];
-  
-  let size = 0, xpro = 1, ypro = 1;
-  size = (w > h) ? (box.bwidth - margin.right) : (box.bheight - margin.bottom);
-  xpro = (w > h) ? 1 : (w / h);
-  ypro = (w > h) ? (h / w) : 1;
-
   scalex = d3.scaleLinear()
     .domain(extentx)
-    .range([margin.left, size * xpro]);
+    .range([margin.left, box.width - margin.right]);
   scaley = d3.scaleLinear()
     .domain(extenty)
-    .range([size * ypro, margin.top]);
+    .range([box.height - margin.top, margin.bottom]);
 
   const [lon, lat] = [d => scalex(d[0]), d => scaley(d[1])];
   const x = d => lon(d);
@@ -58,22 +55,29 @@
 
   function render(points, color, lw) {
     ctx.lineWidth = lw;
-    ctx.beginPath();
-    ctx.strokeStyle = color;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
     for (const point of points) {
+      ctx.beginPath();
+      ctx.strokeStyle = color(point);
       ctx.moveTo(x(point[0]), y(point[0]));
       ctx.lineTo(x(point[1]), y(point[1]));
+      ctx.stroke();
     }
-    ctx.stroke();
   }
 
   const edges = [];
   for (const u in graph.g) {
-    for (const [v, _] of graph.g[u]) {
-      edges.push([graph.loc[u], graph.loc[v]])
+    for (const [v, w] of graph.g[u]) {
+      edges.push([graph.loc[u], graph.loc[v], w])
     }
   }
-  render(edges, 'white', 2)
+  const extentw = d3.extent(edges, d => d[2]);
+  const scalecolor = d3.scaleLinear()
+    .domain(extentw)
+    .range([100, 0]);
+  const color = d => `hsla(${scalecolor(d[2])}, 100%, 50%, 0.5)`
+  render(edges, color, 2)
   
   function dealWithPath(path, color) {
     let head = t;
@@ -82,11 +86,11 @@
       points.push([graph.loc[head], graph.loc[path[head]]]);
       head = path[head];
     }
-    render(points, color, 4)
+    render(points, d => color, 4)
   }
-  dealWithPath(paths.bestpath, "darkgreen")
-  dealWithPath(paths.path1, "orange")
-  dealWithPath(paths.path2, "red")
+  dealWithPath(paths.bestpath, "rgba(0, 128, 0, 0.5)")
+  dealWithPath(paths.path1, "rgba(255, 165, 0, 0.5)")
+  dealWithPath(paths.path2, "rgba(220,  20, 60, 0.5)")
 
   ctx.fillStyle = "LimeGreen";
   ctx.fillRect(x(graph.loc[s]) - 5, y(graph.loc[s]) - 5, 10, 10)
